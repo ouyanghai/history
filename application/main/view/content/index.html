@@ -1,0 +1,97 @@
+{extend name='admin@main'}
+
+{block name="button"}
+<!--{if auth("store/goods/add")}-->
+<button data-open='{:url("add")}' data-title="添加事件" class='layui-btn layui-btn-sm layui-btn-primary'>添加事件</button>
+<!--{/if}-->
+<!--{if auth("store/goods/remove")}-->
+<button data-action='{:url("remove")}' data-rule="id#{key}" class='layui-btn layui-btn-sm layui-btn-primary'>删除事件</button>
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<div class="think-box-shadow">
+    {include file='content/index_search'}
+    <table class="layui-table margin-top-10" lay-skin="line">
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='list-table-sort-td'>
+                <button type="button" data-reload class="layui-btn layui-btn-xs">刷 新</button>
+            </th>
+            <th class='text-left nowrap' width="10%">事件信息</th>
+            <th class='text-left nowrap' width="10%">标题</th>
+            <th class='text-left nowrap padding-0 relative' style="min-width:400px">
+                <div class="layui-row" style="line-height:28px">
+                    <div class="layui-col-xs6 text-center layui-elip">开始时间</div>
+                    <div class="layui-col-xs3 text-center layui-elip">结束时间</div>
+                    <div class="layui-col-xs3 text-center layui-elip">修改时间</div>
+                </div>
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        {/notempty}
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr data-dbclick>
+            <td class='list-table-check-td think-checkbox'><input class="list-check-box" value='{$vo.id}' type='checkbox'></td>
+            <td class='list-table-sort-td'><input data-action-blur="{:request()->url()}" data-value="id#{$vo.id};action#sort;sort#{value}" data-loading="false" value="{$vo.sort}" class="list-sort-input"></td>
+            <td class='text-left nowrap'>
+                {notempty name='vo.logo'}
+                <img data-tips-image style="width:60px;height:60px" src="{$vo.logo|default=''}" class="margin-right-5 text-top">
+                {/notempty}
+                <div class="inline-block">
+                    事件ID：{$vo.id|default='--'}<br>
+                    所属分类：历史事件<br>
+                </div>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.title}<br>
+            </td>
+            <td class='text-left nowrap padding-0 relative'>
+                <div style="overflow:auto;max-height:68px;padding:5px 0">
+                    <div class="layui-row" style="line-height:23px">
+                        <div class="layui-col-xs6 text-center layui-elip color-blue font-s10">{$vo.start_at|default='--'}</div>
+                        <div class="layui-col-xs3 text-center layui-elip color-blue font-s10">{$vo.end_at|default='--'}</div>
+                        <div class="layui-col-xs3 text-center layui-elip color-blue font-s10">{$vo.update_at|default='--'}</div>
+                    </div>
+                </div>
+            </td>
+            <td class='text-left nowrap'>
+
+                <div class="nowrap margin-bottom-5">
+                    {if auth("main/content/edit")}
+                    <a data-dbclick class="layui-btn layui-btn-sm" data-open='{:url("edit")}?id={$vo.id}'>编 辑</a>
+                    {else}
+                    <a data-tips-text="您没有编辑商品的权限哦！" class="layui-btn layui-btn-sm layui-btn-primary layui-disabled">编 辑</a>
+                    {/if}
+
+                    {if isset($vo.status) and $vo.status eq 1}
+                    <!--{if auth("store/goods/forbid")}-->
+                    <a class="layui-btn layui-btn-sm layui-btn-warm" data-action="{:url('forbid')}" data-value="id#{$vo.id};status#0">屏蔽</a>
+                    <!--{else}-->
+                    <a data-tips-text="您没有下架商品的权限哦！" class="layui-btn layui-btn-sm layui-btn-primary layui-disabled">屏蔽</a>
+                    <!--{/if}-->
+                    {else}
+                    <!--{if auth("store/goods/resume")}-->
+                    <a class="layui-btn layui-btn-sm layui-btn-warm" data-action="{:url('resume')}" data-value="id#{$vo.id};status#1">显示</a>
+                    <!--{else}-->
+                    <a data-tips-text="您没有上架商品的权限哦！" class="layui-btn layui-btn-sm layui-btn-primary layui-disabled">显示</a>
+                    <!--{/if}-->
+                    {/if}
+                </div>
+
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+
+</div>
+{/block}

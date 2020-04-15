@@ -1,0 +1,77 @@
+{extend name='admin@main'}
+
+{block name="content"}
+
+{include file='main@content/form_style'}
+
+<form onsubmit="return false;" id="IncidentForm" data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+
+    <div class="layui-card-body think-box-shadow padding-left-40">
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">事件名称</span>
+                <input name="title" required class="layui-input" placeholder="请输入事件名称" value="{$vo.title|default=''}">
+            </label>
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green label-required-prev">发生时间</span>
+                <input name="start_at" value="{$Think.get.start_at|default=''}" placeholder="发生时间" class="layui-input">
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green label-required-prev">结束时间</span>
+                <input name="end_at" value="{$Think.get.end_at|default=''}" placeholder="结束时间" class="layui-input">
+            </label>
+        </div>
+
+        <div class="layui-form-item">
+            <span class="color-green label-required-prev">事件展示图片</span>
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th class="text-left">LOGO</th>
+                </tr>
+                <tr>
+                    <td width="90px" class="text-left"><input name="logo" type="hidden" value="{$vo.logo|default=''}"></td>
+                </tr>
+                </thead>
+            </table>
+            <script>$('[name="logo"]').uploadOneImage(), $('[name="image"]').uploadMultipleImage()</script>
+        </div>
+
+        <div class="layui-form-item block">
+            <span class="label-required-prev color-green">事件详细内容</span>
+            <textarea name="content">{$vo.content|default=''|raw}</textarea>
+        </div>
+
+        <div class="layui-form-item text-center">
+            {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
+            <button class="layui-btn layui-btn-danger" ng-click="hsitoryBack()" type="button">取消编辑</button>
+            <button class="layui-btn" type="submit">保存事件</button>
+        </div>
+
+    </div>
+</form>
+{/block}
+
+{block name='script'}
+
+<script>
+    window.form.render();
+    require(['ckeditor', 'angular'], function () {
+        window.createEditor('[name="content"]', {height: 500});
+        var app = angular.module("IncidentForm", []).run(callback);
+        angular.bootstrap(document.getElementById(app.name), [app.name]);
+
+        function callback($rootScope) {
+            $rootScope.isAddMode = parseInt('{$isAddMode|default=0}');
+            // 返回事件列表
+            $rootScope.hsitoryBack = function () {
+                $.msg.confirm('确定要取消编辑吗？', function (index) {
+                    history.back(), $.msg.close(index);
+                });
+            };
+        }
+    })
+</script>
+{/block}

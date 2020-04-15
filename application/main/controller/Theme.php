@@ -28,7 +28,7 @@ class Theme extends Controller
     {
         $this->title = '主题分类管理';
         $query = $this->_query($this->table)->like('title')->equal('status');
-        $query->where(['is_deleted' => '0'])->order('sort desc,id desc')->page();
+        $query->order('sort desc,id desc')->page();
     }
 
     /**
