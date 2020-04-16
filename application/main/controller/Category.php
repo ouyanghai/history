@@ -6,16 +6,16 @@ use library\Controller;
 use library\service\AdminService;
 use library\service\MenuService;
 
-class Theme extends Controller
+class Category extends Controller
 {
     /**
      * 绑定数据表
      * @var string
      */
-    protected $table = 'his_theme';
+    protected $table = 'his_category';
 
     /**
-     * 商品分类管理
+     * 分类管理
      * @auth true
      * @menu true
      * @throws \think\Exception
@@ -26,13 +26,14 @@ class Theme extends Controller
      */
     public function index()
     {
-        $this->title = '主题分类管理';
+        $this->title = '分类管理';
         $query = $this->_query($this->table)->like('title')->equal('status');
         $query->order('sort desc,id desc')->page();
     }
 
+
     /**
-     * 添加商品分类
+     * 添加分类
      * @auth true
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
@@ -47,7 +48,7 @@ class Theme extends Controller
     }
 
     /**
-     * 编辑商品分类
+     * 编辑分类
      * @auth true
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
@@ -62,7 +63,7 @@ class Theme extends Controller
     }
 
     /**
-     * 禁用商品分类
+     * 禁用分类
      * @auth true
      * @throws \think\Exception
      * @throws \think\exception\PDOException
@@ -73,7 +74,7 @@ class Theme extends Controller
     }
 
     /**
-     * 启用商品分类
+     * 启用分类
      * @auth true
      * @throws \think\Exception
      * @throws \think\exception\PDOException
@@ -84,7 +85,7 @@ class Theme extends Controller
     }
 
     /**
-     * 删除商品分类
+     * 删除分类
      * @auth true
      * @throws \think\Exception
      * @throws \think\exception\PDOException

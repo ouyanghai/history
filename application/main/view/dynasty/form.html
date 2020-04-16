@@ -2,43 +2,49 @@
 
 {block name="content"}
 
-{include file='main@content/form_style'}
+{include file='main@dynasty/form_style'}
 
 <form onsubmit="return false;" id="IncidentForm" data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
 
     <div class="layui-card-body think-box-shadow padding-left-40">
 
         <div class="layui-form-item layui-row layui-col-space15">
-            <label class="layui-col-xs3 relative">
-                <span class="color-green">事件名称</span>
-                <input name="title" required class="layui-input" placeholder="请输入事件名称" value="{$vo.title|default=''}">
-            </label>
-            <label class="layui-col-xs3 relative">
-                <span class="color-green">标签</span>
-                <input name="label" class="layui-input" placeholder="请输入关键词" value="{$vo.label|default=''}">
-            </label>
-        </div>
-
-        <div class="layui-form-item layui-row layui-col-space15">
             <label class="layui-col-xs1 relative">
-                <span class="color-green label-required-prev">发生时间</span>
-                <input name="start_at" value="{$vo.start_at|default=''}" placeholder="发生时间" class="layui-input">
+                <span class="color-green">分类</span>
+                <select class="layui-select" required name="type" lay-search>
+                    {if isset($vo.type) and $vo.type eq 1}
+                    <option selected value="1">时期</option>
+                    <option value="2">朝代</option>
+                    {else}
+                    <option value="1">时期</option>
+                    <option selected value="2">朝代</option>
+                    {/if}
+                </select>
+            </label>
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">朝代/时期名称</span>
+                <input name="title" required class="layui-input" placeholder="请输入朝代/时期名称" value="{$vo.title|default=''}">
+            </label>
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green label-required-prev">开始时间</span>
+                <input name="start_at" value="{$Think.get.start_at|default=''}" placeholder="开始时间" class="layui-input">
             </label>
             <label class="layui-col-xs1 relative">
                 <span class="color-green label-required-prev">结束时间</span>
-                <input name="end_at" value="{$vo.end_at|default=''}" placeholder="结束时间" class="layui-input">
+                <input name="end_at" value="{$Think.get.end_at|default=''}" placeholder="结束时间" class="layui-input">
             </label>
         </div>
 
         <div class="layui-form-item">
-            <span class="color-green label-required-prev">事件展示图片</span>
+            <span class="color-green label-required-prev">朝代/时期展示图片</span>
             <table class="layui-table">
                 <thead>
                 <tr>
                     <th class="text-left">LOGO</th>
                 </tr>
                 <tr>
-                    <td width="90px" class="text-left"><input name="logo" type="hidden" value="{$vo.logo|default=''}"></td>
+                    <td width="90px" class="text-left"><input name="logo" type="hidden" data-folder="dynasty" value="{$vo.logo|default=''}"></td>
                 </tr>
                 </thead>
             </table>
@@ -46,14 +52,14 @@
         </div>
 
         <div class="layui-form-item block">
-            <span class="label-required-prev color-green">事件详细内容</span>
+            <span class="label-required-prev color-green">朝代/时期简介</span>
             <textarea name="content">{$vo.content|default=''|raw}</textarea>
         </div>
 
         <div class="layui-form-item text-center">
             {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
             <button class="layui-btn layui-btn-danger" ng-click="hsitoryBack()" type="button">取消编辑</button>
-            <button class="layui-btn" type="submit">保存事件</button>
+            <button class="layui-btn" type="submit">保存</button>
         </div>
 
     </div>

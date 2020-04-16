@@ -2,7 +2,7 @@
 
 {block name="content"}
 
-{include file='main@content/form_style'}
+{include file='main@literature/form_style'}
 
 <form onsubmit="return false;" id="IncidentForm" data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
 
@@ -13,20 +13,14 @@
                 <span class="color-green">事件名称</span>
                 <input name="title" required class="layui-input" placeholder="请输入事件名称" value="{$vo.title|default=''}">
             </label>
-            <label class="layui-col-xs3 relative">
-                <span class="color-green">标签</span>
-                <input name="label" class="layui-input" placeholder="请输入关键词" value="{$vo.label|default=''}">
             </label>
-        </div>
-
-        <div class="layui-form-item layui-row layui-col-space15">
             <label class="layui-col-xs1 relative">
                 <span class="color-green label-required-prev">发生时间</span>
-                <input name="start_at" value="{$vo.start_at|default=''}" placeholder="发生时间" class="layui-input">
+                <input name="start_at" value="{$Think.get.start_at|default=''}" placeholder="发生时间" class="layui-input">
             </label>
             <label class="layui-col-xs1 relative">
                 <span class="color-green label-required-prev">结束时间</span>
-                <input name="end_at" value="{$vo.end_at|default=''}" placeholder="结束时间" class="layui-input">
+                <input name="end_at" value="{$Think.get.end_at|default=''}" placeholder="结束时间" class="layui-input">
             </label>
         </div>
 

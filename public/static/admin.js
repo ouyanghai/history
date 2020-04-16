@@ -517,8 +517,11 @@ $(function () {
 
     /*! 上传单个图片 */
     $.fn.uploadOneImage = function () {
-        var name = $(this).attr('name') || 'image', type = $(this).data('type') || 'png,jpg,gif';
-        var $tpl = $('<a data-file="btn" class="uploadimage"></a>').attr('data-field', name).attr('data-type', type);
+        var name = $(this).attr('name') || 'image',
+            type = $(this).data('type') || 'png,jpg,gif',
+            folder = $(this).data('folder') || 'default' ;
+        console.log('admin'+'--'+$(this).data('folder'));
+        var $tpl = $('<a data-file="btn" class="uploadimage"></a>').attr('data-field', name).attr('data-type', type).attr('data-folder',folder);
         $(this).attr('name', name).after($tpl.data('input', this)).on('change', function () {
             if (this.value) $tpl.css('backgroundImage', 'url(' + this.value + ')');
         }).trigger('change');

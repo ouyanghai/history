@@ -2,10 +2,11 @@ define(function () {
     return function (element, InitHandler, UploadedHandler, CompleteHandler) {
         var exts = $(element).data('type') || '*';
         var uptype = $(element).attr('data-uptype') || '';
-
+        console.log('test');
         // 检查可以上传的文件后缀
         $.form.load('?s=admin/api.plugs/check', {exts: exts, uptype: uptype}, 'post', function (ret, options) {
             options = {url: ret.data.data.url, exts: ret.data.exts, acceptMime: ret.data.mime, data: ret.data.data};
+            console.log(options);
             if (exts.indexOf('*') > -1) delete options.exts, delete options.acceptMime;
             return renderUploader(options), false;
         }, false, false, 0);
