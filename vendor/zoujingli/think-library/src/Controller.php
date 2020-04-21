@@ -61,6 +61,8 @@ abstract class Controller extends \stdClass
      */
     public $csrf_message = '';
 
+    public $controller='';
+    public $upload_file_path = '';
     /**
      * Controller constructor.
      * @param App $app
@@ -69,6 +71,8 @@ abstract class Controller extends \stdClass
     {
         $this->app = $app;
         $this->request = $app->request;
+        $this->controller = strtolower(request()->controller());
+        $this->upload_file_path = UPLOAD_FILE_PATH;
         // 控制器注入容器
         Container::set('library\Controller', $this);
         if (in_array($this->request->action(), get_class_methods(__CLASS__))) {

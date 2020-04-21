@@ -42,7 +42,7 @@
             <td class='list-table-sort-td'><input data-action-blur="{:request()->url()}" data-value="id#{$vo.id};action#sort;sort#{value}" data-loading="false" value="{$vo.sort}" class="list-sort-input"></td>
             <td class='text-left nowrap'>
                 {notempty name='vo.logo'}
-                <img data-tips-image style="width:60px;height:60px" src="{$vo.logo|default=''}" class="margin-right-5 text-top">
+                <img data-tips-image style="width:60px;height:60px" src="{$upload_file_path.$vo.logo}" class="margin-right-5 text-top">
                 {/notempty}
                 <div class="inline-block">
                     事件ID：{$vo.id|default='--'}<br>

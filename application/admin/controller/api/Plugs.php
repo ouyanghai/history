@@ -43,6 +43,7 @@ class Plugs extends Controller
      */
     public function check()
     {
+        $folder = input('folder');
         $diff1 = explode(',', strtolower(input('exts', '')));
         $diff2 = explode(',', strtolower(sysconf('storage_local_exts')));
         $exts = array_intersect($diff1, $diff2);
@@ -50,7 +51,7 @@ class Plugs extends Controller
             'exts' => join('|', $exts),
             'mime' => File::mine($exts),
             'type' => $this->getUploadType(),
-            'data' => $this->getUploadData(),
+            'data' => $this->getUploadData($folder),
         ]);
     }
 
@@ -61,6 +62,7 @@ class Plugs extends Controller
      * @throws \think\Exception
      * @throws \think\exception\PDOException
      */
+    /*
     public function upload()
     {
         if (!($file = $this->getUploadFile()) || empty($file)) {
@@ -72,13 +74,41 @@ class Plugs extends Controller
         if ($file->checkExt('php,sh')) {
             return json(['uploaded' => false, 'error' => ['message' => '可执行文件禁止上传到本地服务器']]);
         }
+        $folder = input('folder');
         $this->safe = boolval(input('safe'));
         $this->uptype = $this->getUploadType();
         $this->extend = pathinfo($file->getInfo('name'), PATHINFO_EXTENSION);
-        $name = File::name($file->getPathname(), $this->extend, '', 'md5_file');
+        $name = File::name($file->getPathname(), $this->extend, $folder, 'md5_file');
         $info = File::instance($this->uptype)->save($name, file_get_contents($file->getRealPath()), $this->safe);
         if (is_array($info) && isset($info['url'])) {
-            return json(['uploaded' => true, 'filename' => $name, 'url' => $this->safe ? $name : $info['url']]);
+            return json(['uploaded' => true, 'filename' => $name, 'url' => $this->safe ? $name : $info['url'],'folder'=>$folder]);
+        } else {
+            return json(['uploaded' => false, 'error' => ['message' => '文件处理失败，请稍候再试！']]);
+        }
+    }
+    */
+
+    public function upload()
+    {
+        if (!($file = $this->getUploadFile()) || empty($file)) {
+            return json(['uploaded' => false, 'error' => ['message' => '文件上传异常，文件可能过大或未上传']]);
+        }
+        if (!$file->checkExt(strtolower(sysconf('storage_local_exts')))) {
+            return json(['uploaded' => false, 'error' => ['message' => '文件上传类型受限，请在后台配置']]);
+        }
+        if ($file->checkExt('php,sh')) {
+            return json(['uploaded' => false, 'error' => ['message' => '可执行文件禁止上传到本地服务器']]);
+        }
+        $folder = input('folder');
+        $this->safe = boolval(input('safe'));
+        $this->uptype = $this->getUploadType();
+        $this->extend = pathinfo($file->getInfo('name'), PATHINFO_EXTENSION);
+        //$name = File::name($file->getPathname(), $this->extend, $folder, 'md5_file');
+        $name = $folder.'/'.date('Y-m-d').'/'.date('His').mt_rand(100,999).'.'.$this->extend;
+        $info = File::instance($this->uptype)->save($name, file_get_contents($file->getRealPath()), $this->safe);
+
+        if (is_array($info) && isset($info['url'])) {
+            return json(['uploaded' => true, 'filename' => $name, 'url' => $name,'folder'=>$folder]);
         } else {
             return json(['uploaded' => false, 'error' => ['message' => '文件处理失败，请稍候再试！']]);
         }
@@ -89,13 +119,13 @@ class Plugs extends Controller
      * @return array
      * @throws \think\Exception
      */
-    private function getUploadData()
+    private function getUploadData($folder='')
     {
         if ($this->getUploadType() === 'qiniu') {
             $file = File::instance('qiniu');
             return ['url' => $file->upload(true), 'token' => $file->buildUploadToken(), 'uptype' => $this->getUploadType()];
         } else {
-            return ['url' => '?s=admin/api.plugs/upload', 'token' => uniqid('local_upload_'), 'uptype' => $this->getUploadType()];
+            return ['url' => '?s=admin/api.plugs/upload', 'token' => uniqid('local_upload_'), 'uptype' => $this->getUploadType(),'folder'=>$folder];
         }
     }
 

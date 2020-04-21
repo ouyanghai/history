@@ -507,7 +507,9 @@ $(function () {
 
     /*! 全局文件上传入口 */
     $.fn.uploadFile = function (callback) {
+
         if (this.attr('data-inited')) return false;
+
         var that = this, mode = $(this).attr('data-file') || 'one';
         this.attr('data-inited', true).attr('data-multiple', (mode !== 'btn' && mode !== 'one') ? 1 : 0);
         require(['upload'], function (apply) {
@@ -519,11 +521,12 @@ $(function () {
     $.fn.uploadOneImage = function () {
         var name = $(this).attr('name') || 'image',
             type = $(this).data('type') || 'png,jpg,gif',
-            folder = $(this).data('folder') || 'default' ;
-        console.log('admin'+'--'+$(this).data('folder'));
+            folder = $(this).data('folder') || 'default',
+            path = $(this).data('path') || 'default';
+
         var $tpl = $('<a data-file="btn" class="uploadimage"></a>').attr('data-field', name).attr('data-type', type).attr('data-folder',folder);
         $(this).attr('name', name).after($tpl.data('input', this)).on('change', function () {
-            if (this.value) $tpl.css('backgroundImage', 'url(' + this.value + ')');
+            if (this.value) $tpl.css('backgroundImage', 'url('+path+'/'+ this.value + ')');
         }).trigger('change');
     };
 
