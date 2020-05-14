@@ -7,20 +7,20 @@ use library\tools\Data;
 use think\Db;
 
 /**
- * 作品信息管理
+ * 人物信息管理
  * Class Goods
  * @package app\store\controller
  */
-class Literature extends Controller
+class Figures extends Controller
 {
     /**
      * 指定数据表
      * @var string
      */
-    protected $table = 'his_incident';
+    protected $table = 'his_figures';
 
     /**
-     * 作品信息管理
+     * 人物信息管理
      * @auth true
      * @menu true
      * @throws \think\Exception
@@ -31,8 +31,8 @@ class Literature extends Controller
      */
     public function index()
     {
-        $this->title = '作品管理';
-        $query = $this->_query($this->table)->equal('status')->like('title');
+        $this->title = '人物管理';
+        $query = $this->_query($this->table)->equal('status');
         $query->order('sort desc,id desc')->page();
     }
 
@@ -56,7 +56,7 @@ class Literature extends Controller
     }
 
     /**
-     * 添加作品信息
+     * 添加人物信息
      * @auth true
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
@@ -73,7 +73,7 @@ class Literature extends Controller
     }
 
     /**
-     * 编辑作品信息
+     * 编辑人物信息
      * @auth true
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
@@ -83,7 +83,7 @@ class Literature extends Controller
      */
     public function edit()
     {
-        $this->title = '编辑作品信息';
+        $this->title = '编辑人物信息';
         $this->isAddMode = '0';
         $this->_form($this->table, 'form');
     }
@@ -99,10 +99,13 @@ class Literature extends Controller
      */
     protected function _form_filter(&$data)
     {
+        $gender = [1=>'男',2=>'女',3=>'男变女',4=>'女变男'];
+        $this->gender = $gender;
         if ($this->request->isGet()) {
-            $this->cates = Db::name('his_theme')->where(['status' => '1'])->order('id asc,sort desc')->select();
+            //$this->cates = Db::name('his_theme')->where(['status' => '1'])->order('id asc,sort desc')->select();
         } elseif ($this->request->isPost()) {
-            if (empty($data['logo'])) $this->error('事件LOGO不能为空，请上传图片');
+            $data['name'] = $data['surname'].$data['given_name'];
+            //if (empty($data['pic'])) $this->error('人物图片不能为空，请上传图片');
         }
     }
 
@@ -118,13 +121,7 @@ class Literature extends Controller
     }
 
     /**
-     * @auth true
-     */
-    public function category(){
-
-    }
-    /**
-     * 禁用作品信息
+     * 禁用人物信息
      * @auth true
      * @throws \think\Exception
      * @throws \think\exception\PDOException
@@ -135,7 +132,7 @@ class Literature extends Controller
     }
 
     /**
-     * 启用作品信息
+     * 启用人物信息
      * @auth true
      * @throws \think\Exception
      * @throws \think\exception\PDOException
@@ -146,7 +143,7 @@ class Literature extends Controller
     }
 
     /**
-     * 删除作品信息
+     * 删除人物信息
      * @auth true
      * @throws \think\Exception
      * @throws \think\exception\PDOException

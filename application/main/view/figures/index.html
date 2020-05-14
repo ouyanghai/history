@@ -2,16 +2,16 @@
 
 {block name="button"}
 <!--{if auth("store/goods/add")}-->
-<button data-open='{:url("add")}' data-title="添加事件" class='layui-btn layui-btn-sm layui-btn-primary'>添加时代信息</button>
+<button data-open='{:url("add")}' data-title="添加人物" class='layui-btn layui-btn-sm layui-btn-primary'>添加</button>
 <!--{/if}-->
 <!--{if auth("store/goods/remove")}-->
-<button data-action='{:url("remove")}' data-rule="id#{key}" class='layui-btn layui-btn-sm layui-btn-primary'>删除时代信息</button>
+<button data-action='{:url("remove")}' data-rule="id#{key}" class='layui-btn layui-btn-sm layui-btn-primary'>删除</button>
 <!--{/if}-->
 {/block}
 
 {block name="content"}
 <div class="think-box-shadow">
-    {include file='dynasty/index_search'}
+    {include file='figures/index_search'}
     <table class="layui-table margin-top-10" lay-skin="line">
         {notempty name='list'}
         <thead>
@@ -22,13 +22,12 @@
             <th class='list-table-sort-td'>
                 <button type="button" data-reload class="layui-btn layui-btn-xs">刷 新</button>
             </th>
-            <th class='text-left nowrap' width="10%">事件信息</th>
-            <th class='text-left nowrap' width="10%">标题</th>
+            <th class='text-left nowrap' width="10%">人物信息</th>
+            <th class='text-left nowrap' width="10%">姓名</th>
             <th class='text-left nowrap padding-0 relative' style="min-width:400px">
                 <div class="layui-row" style="line-height:28px">
-                    <div class="layui-col-xs6 text-center layui-elip">开始时间</div>
-                    <div class="layui-col-xs3 text-center layui-elip">结束时间</div>
-                    <div class="layui-col-xs3 text-center layui-elip">修改时间</div>
+                    <div class="layui-col-xs6 text-center layui-elip">出生时间</div>
+                    <div class="layui-col-xs3 text-center layui-elip">死亡时间</div>
                 </div>
             </th>
             <th></th>
@@ -41,23 +40,23 @@
             <td class='list-table-check-td think-checkbox'><input class="list-check-box" value='{$vo.id}' type='checkbox'></td>
             <td class='list-table-sort-td'><input data-action-blur="{:request()->url()}" data-value="id#{$vo.id};action#sort;sort#{value}" data-loading="false" value="{$vo.sort}" class="list-sort-input"></td>
             <td class='text-left nowrap'>
-                {notempty name='vo.logo'}
+                {notempty name='vo.pic'}
                 <img data-tips-image style="width:60px;height:60px" src="{$upload_file_path.$vo.logo}" class="margin-right-5 text-top">
                 {/notempty}
+
                 <div class="inline-block">
-                    事件ID：{$vo.id|default='--'}<br>
-                    所属分类：历史事件<br>
+                    时期：{$vo.dynasty|default='--'}<br>
+                    国家：{$vo.country|default='--'}<br>
                 </div>
             </td>
             <td class='text-left nowrap'>
-                {$vo.title}<br>
+                {$vo.name}<br>
             </td>
             <td class='text-left nowrap padding-0 relative'>
                 <div style="overflow:auto;max-height:68px;padding:5px 0">
                     <div class="layui-row" style="line-height:23px">
                         <div class="layui-col-xs6 text-center layui-elip color-blue font-s10">{$vo.start_at|default='--'}</div>
                         <div class="layui-col-xs3 text-center layui-elip color-blue font-s10">{$vo.end_at|default='--'}</div>
-                        <div class="layui-col-xs3 text-center layui-elip color-blue font-s10">{$vo.update_at|default='--'}</div>
                     </div>
                 </div>
             </td>

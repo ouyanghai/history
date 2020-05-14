@@ -532,8 +532,12 @@ $(function () {
 
     /*! 上传多个图片 */
     $.fn.uploadMultipleImage = function () {
-        var type = $(this).data('type') || 'png,jpg,gif', name = $(this).attr('name') || 'umt-image';
-        var $tpl = $('<a class="uploadimage"></a>').attr('data-file', 'mul').attr('data-field', name).attr('data-type', type);
+        var type = $(this).data('type') || 'png,jpg,gif',
+            name = $(this).attr('name') || 'umt-image',
+            folder = $(this).data('folder') || 'default',
+            path = $(this).data('path') || 'default';
+
+        var $tpl = $('<a class="uploadimage"></a>').attr('data-file', 'mul').attr('data-field', name).attr('data-type', type).attr('data-folder',folder);
         $(this).attr('name', name).after($tpl.data('input', this)).on('change', function () {
             var input = this;
             this.setImageData = function () {
@@ -552,7 +556,7 @@ $(function () {
             this.value = urls.join('|');
             for (var i in urls) {
                 var tpl = '<div class="uploadimage uploadimagemtl"><a class="layui-icon margin-right-5">&#xe602;</a><a class="layui-icon margin-right-5">&#x1006;</a><a class="layui-icon margin-right-5">&#xe603;</a></div>';
-                var $tpl = $(tpl).attr('data-tips-image', urls[i]).css('backgroundImage', 'url(' + urls[i] + ')').on('click', 'a', function (e) {
+                var $tpl = $(tpl).attr('data-tips-image', urls[i]).css('backgroundImage', 'url('+ path +'/'+ urls[i] + ')').on('click', 'a', function (e) {
                     e.stopPropagation();
                     var $cur = $(this).parent();
                     switch ($(this).index()) {

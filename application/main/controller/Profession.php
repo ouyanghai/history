@@ -7,20 +7,20 @@ use library\tools\Data;
 use think\Db;
 
 /**
- * 作品信息管理
+ * 职业信息管理
  * Class Goods
  * @package app\store\controller
  */
-class Literature extends Controller
+class Profession extends Controller
 {
     /**
      * 指定数据表
      * @var string
      */
-    protected $table = 'his_incident';
+    protected $table = 'his_profession';
 
     /**
-     * 作品信息管理
+     * 职业信息管理
      * @auth true
      * @menu true
      * @throws \think\Exception
@@ -31,9 +31,9 @@ class Literature extends Controller
      */
     public function index()
     {
-        $this->title = '作品管理';
+        $this->title = '职业管理';
         $query = $this->_query($this->table)->equal('status')->like('title');
-        $query->order('sort desc,id desc')->page();
+        $query->order('id desc')->page();
     }
 
     /**
@@ -56,7 +56,7 @@ class Literature extends Controller
     }
 
     /**
-     * 添加作品信息
+     * 添加职业信息
      * @auth true
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
@@ -66,14 +66,14 @@ class Literature extends Controller
      */
     public function add()
     {
-        $this->title = '添加事件';
+        $this->title = '添加职业';
         $this->isAddMode = '1';
         $this->_form($this->table, 'form');
 
     }
 
     /**
-     * 编辑作品信息
+     * 编辑职业信息
      * @auth true
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
@@ -83,7 +83,7 @@ class Literature extends Controller
      */
     public function edit()
     {
-        $this->title = '编辑作品信息';
+        $this->title = '编辑职业信息';
         $this->isAddMode = '0';
         $this->_form($this->table, 'form');
     }
@@ -100,9 +100,19 @@ class Literature extends Controller
     protected function _form_filter(&$data)
     {
         if ($this->request->isGet()) {
-            $this->cates = Db::name('his_theme')->where(['status' => '1'])->order('id asc,sort desc')->select();
+            $res = $this->cates = Db::name($this->table)->where(['status' => '1','pid'=>0])->order('id asc,sort desc')->select();
+            $cates = [];
+            if( !empty($res) ){
+                foreach ($res as $cat){
+                    if( empty($cat['pid']) ){
+                        $cates[]=$cat;
+                    }
+                }
+            }
+            $this->cates = $cates;
+
         } elseif ($this->request->isPost()) {
-            if (empty($data['logo'])) $this->error('事件LOGO不能为空，请上传图片');
+            //if (empty($data['logo'])) $this->error('职业LOGO不能为空，请上传图片');
         }
     }
 
@@ -118,13 +128,7 @@ class Literature extends Controller
     }
 
     /**
-     * @auth true
-     */
-    public function category(){
-
-    }
-    /**
-     * 禁用作品信息
+     * 禁用职业信息
      * @auth true
      * @throws \think\Exception
      * @throws \think\exception\PDOException
@@ -135,7 +139,7 @@ class Literature extends Controller
     }
 
     /**
-     * 启用作品信息
+     * 启用职业信息
      * @auth true
      * @throws \think\Exception
      * @throws \think\exception\PDOException
@@ -146,7 +150,7 @@ class Literature extends Controller
     }
 
     /**
-     * 删除作品信息
+     * 删除职业信息
      * @auth true
      * @throws \think\Exception
      * @throws \think\exception\PDOException

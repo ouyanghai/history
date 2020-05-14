@@ -1,0 +1,178 @@
+{extend name='admin@main'}
+
+{block name="content"}
+
+{include file='main@figures/form_style'}
+
+<form onsubmit="return false;" id="IncidentForm" data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+
+    <div class="layui-card-body think-box-shadow padding-left-40">
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">姓</span>
+                <input name="surname" required class="layui-input" placeholder="请输入名称" value="{$vo.title|default=''}">
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">名</span>
+                <input name="given_name" required class="layui-input" placeholder="请输入名称" value="{$vo.title|default=''}">
+            </label>
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">性别</span>
+                <select class="layui-select" required name="gender" lay-search>
+                    {foreach $gender as $key=>$val}
+                    {if isset($vo.gender) and $vo.gender eq $key}
+                    <option selected value="{$key}">{$val|default=''}</option>
+                    {else}
+                    <option value="{$key}">{$val|default=''}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green label-required-prev">出生时间</span>
+                <input name="start_at" value="{$vo.start_at|default=''}" placeholder="出生时间" class="layui-input">
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">死亡时间</span>
+                <input name="end_at" value="{$vo.end_at|default=''}" placeholder="死亡时间" class="layui-input">
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">年龄</span>
+                <input name="age" class="layui-input" placeholder="请输入名称" value="{$vo.title|default=''}">
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">身高（cm）</span>
+                <input name="height" class="layui-input" placeholder="请输入名称" value="{$vo.title|default=''}">
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">体重（kg）</span>
+                <input name="weight" class="layui-input" placeholder="请输入名称" value="{$vo.title|default=''}">
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">字</span>
+                <input name="word" class="layui-input" placeholder="请输入名称" value="{$vo.title|default=''}">
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">号</span>
+                <input name="called" class="layui-input" placeholder="请输入名称" value="{$vo.title|default=''}">
+            </label>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">职业</span>
+                <select class="layui-select" name="profession" lay-search>
+                    {foreach $gender as $key=>$val}
+                    {if isset($vo.gender) and $vo.gender eq $key}
+                    <option selected value="{$key}">{$val|default=''}</option>
+                    {else}
+                    <option value="{$key}">{$val|default=''}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">时期</span>
+                <select class="layui-select" name="dynasty_id" lay-search>
+                    {foreach $gender as $key=>$val}
+                    {if isset($vo.gender) and $vo.gender eq $key}
+                    <option selected value="{$key}">{$val|default=''}</option>
+                    {else}
+                    <option value="{$key}">{$val|default=''}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">国家</span>
+                <select class="layui-select" name="country_code" lay-search>
+                    {foreach $gender as $key=>$val}
+                    {if isset($vo.gender) and $vo.gender eq $key}
+                    <option selected value="{$key}">{$val|default=''}</option>
+                    {else}
+                    <option value="{$key}">{$val|default=''}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">省</span>
+                <input name="province" class="layui-input" placeholder="请输入名称" value="{$vo.title|default=''}">
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">市</span>
+                <input name="city" class="layui-input" placeholder="请输入名称" value="{$vo.title|default=''}">
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">县/区</span>
+                <input name="address1" class="layui-input" placeholder="请输入名称" value="{$vo.title|default=''}">
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">村/街道</span>
+                <input name="address2" class="layui-input" placeholder="请输入名称" value="{$vo.title|default=''}">
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">详细地址</span>
+                <input name="address3" class="layui-input" placeholder="请输入名称" value="{$vo.title|default=''}">
+            </label>
+        </div>
+        <div class="layui-form-item">
+            <span class="color-green label-required-prev">展示图片</span>
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th class="text-left">LOGO</th>
+                    <th class="text-left">其他图片</th>
+                </tr>
+                <tr>
+
+                    <td width="90px" class="text-left">
+                        <input name="logo" type="hidden" data-folder="{$controller}" data-path="{$upload_file_path}" value="{$vo.logo|default=''}">
+                    </td>
+
+                    <td width="auto" class="text-left">
+                        <input name="pic" type="hidden" data-folder="{$controller}" data-path="{$upload_file_path}"  value="{$vo.image|default=''}">
+                    </td>
+                </tr>
+                </thead>
+            </table>
+            <script>$('[name="logo"]').uploadOneImage(), $('[name="pic"]').uploadMultipleImage()</script>
+        </div>
+
+        <div class="layui-form-item block">
+            <span class="label-required-prev color-green">详细内容</span>
+            <textarea name="content">{$vo.content|default=''|raw}</textarea>
+        </div>
+
+        <div class="layui-form-item text-center">
+            {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
+            <button class="layui-btn layui-btn-danger" ng-click="hsitoryBack()" type="button">取消编辑</button>
+            <button class="layui-btn" type="submit">保存</button>
+        </div>
+
+    </div>
+</form>
+{/block}
+
+{block name='script'}
+
+<script>
+    window.form.render();
+    require(['ckeditor', 'angular'], function () {
+        window.createEditor('[name="content"]', {height: 500});
+        var app = angular.module("IncidentForm", []).run(callback);
+        angular.bootstrap(document.getElementById(app.name), [app.name]);
+
+        function callback($rootScope) {
+            $rootScope.isAddMode = parseInt('{$isAddMode|default=0}');
+            // 返回事件列表
+            $rootScope.hsitoryBack = function () {
+                $.msg.confirm('确定要取消编辑吗？', function (index) {
+                    history.back(), $.msg.close(index);
+                });
+            };
+        }
+    })
+</script>
+{/block}

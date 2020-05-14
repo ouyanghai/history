@@ -2,42 +2,47 @@
 
 {block name="content"}
 
-{include file='main@dynasty/form_style'}
+{include file='main@profession/form_style'}
 
 <form onsubmit="return false;" id="IncidentForm" data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
 
     <div class="layui-card-body think-box-shadow padding-left-40">
 
         <div class="layui-form-item layui-row layui-col-space15">
-            <label class="layui-col-xs1 relative">
-                <span class="color-green">分类</span>
-                <select class="layui-select" required name="type" lay-search>
-                    {if isset($vo.type) and $vo.type eq 1}
-                    <option selected value="1">时期</option>
-                    <option value="2">朝代</option>
+            <label class="layui-col-xs2 relative">
+                <span class="color-green">所属主职业</span>
+                <select class="layui-select" required name="pid" lay-search>
+                    <option value="0">无</option>
+                    {foreach $cates as $cate}
+                    {if isset($vo.id) and $vo.id eq $cate.id}
+                    <option selected value="{$cate.id}">{$cate.title|default=''}</option>
                     {else}
-                    <option value="1">时期</option>
-                    <option selected value="2">朝代</option>
+                    <option value="{$cate.id}">{$cate.title|default=''}</option>
                     {/if}
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs1 relative">
+                <span class="color-green">等级</span>
+                <select class="layui-select" required name="level" lay-search>
+                    {for start="1" end="21" step="1" name="i"}
+                    <option value="{$i}">{$i}</option>
+                    {/for}
                 </select>
             </label>
             <label class="layui-col-xs3 relative">
-                <span class="color-green">朝代/时期名称</span>
-                <input name="title" required class="layui-input" placeholder="请输入朝代/时期名称" value="{$vo.title|default=''}">
+                <span class="color-green">职业名称</span>
+                <input name="title" required class="layui-input" placeholder="请输入职业名称" value="{$vo.title|default=''}">
             </label>
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">别称</span>
+                <input name="vice_title" required class="layui-input" placeholder="请输入别称" value="{$vo.title|default=''}">
             </label>
-            <label class="layui-col-xs1 relative">
-                <span class="color-green label-required-prev">开始时间</span>
-                <input name="start_at" value="{$vo.start_at|default=''}" placeholder="开始时间" class="layui-input">
-            </label>
-            <label class="layui-col-xs1 relative">
-                <span class="color-green label-required-prev">结束时间</span>
-                <input name="end_at" value="{$vo.end_at|default=''}" placeholder="结束时间" class="layui-input">
-            </label>
-        </div>
 
+        </div>
+        <!--
         <div class="layui-form-item">
-            <span class="color-green label-required-prev">朝代/时期展示图片</span>
+            <span class="color-green label-required-prev">职业展示图片</span>
             <table class="layui-table">
                 <thead>
                 <tr>
@@ -50,9 +55,9 @@
             </table>
             <script>$('[name="logo"]').uploadOneImage(), $('[name="image"]').uploadMultipleImage()</script>
         </div>
-
+        -->
         <div class="layui-form-item block">
-            <span class="label-required-prev color-green">朝代/时期简介</span>
+            <span class="label-required-prev color-green">职业详细内容</span>
             <textarea name="content">{$vo.content|default=''|raw}</textarea>
         </div>
 
