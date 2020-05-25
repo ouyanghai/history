@@ -52,6 +52,7 @@ class Index extends Controller
 
     /**
      * 后台环境信息
+     * @login true
      */
     public function main()
     {

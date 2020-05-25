@@ -3,7 +3,10 @@
 {block name="content"}
 
 {include file='main@figures/form_style'}
-
+<!--
+<link rel="stylesheet" type="text/css" href="static/plugs/formselect/UI/layui-v2.3.0-rc1/layui/css/layui.css" />
+<link rel="stylesheet" type="text/css" href="static/plugs/formselect/dist/formSelects-v4.css"/>
+-->
 <form onsubmit="return false;" id="IncidentForm" data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
 
     <div class="layui-card-body think-box-shadow padding-left-40">
@@ -62,7 +65,7 @@
         <div class="layui-form-item layui-row layui-col-space15">
             <label class="layui-col-xs1 relative">
                 <span class="color-green">职业</span>
-                <select class="layui-select" name="profession" lay-search>
+                <select class="layui-select layui-select-multiple" name="profession" lay-search>
                     {foreach $gender as $key=>$val}
                     {if isset($vo.gender) and $vo.gender eq $key}
                     <option selected value="{$key}">{$val|default=''}</option>
@@ -156,7 +159,10 @@
 {/block}
 
 {block name='script'}
-
+<!--
+<script src="static/plugs/formselect/UI/layui-v2.3.0-rc1/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/plugs/formselect/dist/formSelects-v4.js" type="text/javascript" charset="utf-8"></script>
+-->
 <script>
     window.form.render();
     require(['ckeditor', 'angular'], function () {
